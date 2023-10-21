@@ -41,7 +41,7 @@ jobs:
 
       - name: display options
         id: displayInputOptions
-        shell: bash
+        shell: pwsh
         run: |
           echo "tf-plan: ${{ inputs.tf-plan-only }}"
         continue-on-error: true
