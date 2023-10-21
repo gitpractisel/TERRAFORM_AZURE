@@ -10,8 +10,12 @@ on:
         type: boolean
 
 env:
-  SUBSCRIPTION_NAME: ''
-  RESOURCE_GROUP_NAME: ''
+  SUBSCRIPTION_NAME: "test_subscription"
+  RESOURCE_GROUP_NAME: "terraform_actions_rg"
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_SP_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
   initialization-job:
