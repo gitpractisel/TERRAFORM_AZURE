@@ -1,0 +1,45 @@
+name: 'dev pipeline'
+
+on:
+  workflow_dispatch:
+    inputs:
+      tf-plan-only:
+        description: 'run only plan'
+        required: true
+        default: true
+        type: boolean
+
+env:
+  SUBSCRIPTION_NAME: ''
+  RESOURCE_GROUP_NAME: ''
+
+jobs:
+  initialization-job:
+    name: "initial"
+    runs-on : onprem-windows
+    environment: dev
+    outputs:
+      formatResult: ${{ steps.terraformFormat.outcome }}
+      subscriptionName: ${{ env.SUBSCRIPTION_NAME }}
+      resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: terraform setup
+        uses: hashicorp/setup-terraform@v2
+
+      - name: fmt
+        run: terraform -fmt -check -diff -recursive
+        id: terraformFormat
+        continue-on-error: true
+
+      - name: display options
+        id: displayInputOptions
+        shell: bash
+        run: |
+          echo "tf-plan: ${{ inputs.tf-plan-only }}"
+        continue-on-error: true
+
+      
